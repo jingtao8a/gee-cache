@@ -33,10 +33,6 @@ func NewGroup(name string, cacheBytes int64, getter Getter) *Group {
 	}
 	mu.Lock()
 	defer mu.Unlock()
-	group, ok := groups[name]
-	if ok {
-		return group
-	}
 	g := &Group{
 		name:   name,
 		getter: getter,
@@ -46,6 +42,12 @@ func NewGroup(name string, cacheBytes int64, getter Getter) *Group {
 	}
 	groups[name] = g
 	return g
+}
+
+func GetGroup(name string) *Group {
+	mu.Lock()
+	defer mu.Unlock()
+	return groups[name]
 }
 
 func (g *Group) Get(key string) (ByteView, error) {
