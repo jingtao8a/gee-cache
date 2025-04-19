@@ -19,12 +19,6 @@ func TestGetter(t *testing.T) {
 	}
 }
 
-var db = map[string]string{
-	"Tom":  "630",
-	"Jack": "589",
-	"Sam":  "567",
-}
-
 func TestGet(t *testing.T) {
 	loadCounts := make(map[string]int, len(db))
 	geeCache := NewGroup("scores", 2<<10, GetterFunc(func(key string) ([]byte, error) {

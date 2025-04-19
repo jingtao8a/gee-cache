@@ -6,12 +6,6 @@ import (
 	"net/http"
 )
 
-var db = map[string]string{
-	"Tom":  "630",
-	"Jack": "589",
-	"Sam":  "567",
-}
-
 func main() {
 	NewGroup("scores", 2<<10, GetterFunc(func(key string) ([]byte, error) {
 		log.Println("[SlowDB] search key", key)
