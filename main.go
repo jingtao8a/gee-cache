@@ -43,13 +43,11 @@ func startAPIServer(apiAddr string, gee *Group) {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			w.Header().Set("Content-Type", "application/octet-stream")
+			w.Header().Set("Content-Type", "text/plain")
 			w.Write(view.BytesSlice())
-
 		}))
 	log.Println("fontend server is running at", apiAddr)
 	log.Fatal(http.ListenAndServe(apiAddr[7:], nil))
-
 }
 
 func main() {
