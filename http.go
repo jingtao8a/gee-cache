@@ -17,11 +17,11 @@ const (
 )
 
 type HTTPPool struct {
-	self        string // 记录自己的地址，包括 主机名/IP
-	basePath    string
-	mu          sync.Mutex // guards peers and HTTPGetters
-	peers       *consistenthash.Map
-	httpGetters map[string]*HTTPGetter // keyed by e.g. "10.0.0.2:8008"
+	self        string                 // 记录自己的地址,ip:port
+	basePath    string                 // 默认为 "/geechche/"
+	mu          sync.Mutex             // guards peers and HTTPGetters
+	peers       *consistenthash.Map    // 一致性哈希算法
+	httpGetters map[string]*HTTPGetter // keyed by e.g. "http://10.0.0.2:8008"
 }
 
 func NewHTTPPool(self string) *HTTPPool {

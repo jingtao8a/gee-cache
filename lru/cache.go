@@ -7,7 +7,7 @@ type Cache struct {
 	nbytes    int64 // 当前已使用的内存
 	ll        *list.List
 	cache     map[string]*list.Element
-	OnEvicted func(key string, value Value) // 某条记录被驱逐的回调函数
+	onEvicted func(key string, value Value) // 某条记录被驱逐的回调函数
 }
 
 type entry struct {
@@ -25,7 +25,7 @@ func NewCache(maxBytes int64, onEvicted func(string, Value)) *Cache {
 		maxBytes:  maxBytes,
 		ll:        list.New(),
 		cache:     make(map[string]*list.Element),
-		OnEvicted: onEvicted,
+		onEvicted: onEvicted,
 	}
 }
 
@@ -46,8 +46,8 @@ func (c *Cache) RemoveOldest() {
 	c.ll.Remove(elem)
 	delete(c.cache, elem.Value.(*entry).key)
 	c.nbytes -= int64(len(elem.Value.(*entry).key)) + int64(elem.Value.(*entry).value.Len())
-	if c.OnEvicted != nil {
-		c.OnEvicted(elem.Value.(*entry).key, elem.Value.(*entry).value)
+	if c.onEvicted != nil {
+		c.onEvicted(elem.Value.(*entry).key, elem.Value.(*entry).value)
 	}
 }
 
